@@ -4,57 +4,60 @@ require 'reasonable/value/version'
 require 'active_support/core_ext/string/inflections'
 
 module Reasonable
-  module Value
-    def self.included(klass)
-      klass.class_variable_set(:@@config, {})
+  class Value
 
-      klass.extend(ClassMethods)
-      klass.include(InstanceMethods)
+    include Comparable
+    def <=>(other)
+      @attributes <=> other.instance_variable_get(:@attributes)
+    end
 
-      klass.class_eval do
-        include Comparable
+    def initialize(**attributes)
+      @attributes = {}
 
-        def <=>(other)
-          @attributes <=> other.instance_variable_get(:@attributes)
-        end
+      self.class.send(:config).each do |name, config|
+        next if attributes[name].nil? && config[:options][:optional]
+
+        @attributes[name] = coerce(attributes, name, config)
       end
     end
 
-    module InstanceMethods
-      def initialize(**attributes)
-        @attributes = {}
+    class << self
 
-        self.class.class_variable_get(:@@config).each do |name, config|
-          next if attributes[name].nil? && config[:options][:optional]
+      protected
 
-          @attributes[name] = coerce(attributes, name, config)
-        end
+      def attribute(name, type, **options)
+        mutex.synchronize { config[name] = { type: type, options: options } }
+
+        define_method(name) { @attributes[name] }
       end
 
       private
 
-      def coerce(attributes, name, config)
-        Coercer.(config[:type], attributes[name])
-      rescue TypeError
-        type_error(name, config[:type], attributes[name].class)
+      def mutex
+        return @mutex if defined?(@mutex)
+
+        @mutex = Thread::Mutex.new
       end
 
-      def type_error(name, expected, actual)
-        raise(
-          TypeError,
-          "expected :#{name} to be a #{expected} but was a #{actual}"
-        )
+      def config
+        @config ||= {}
       end
+
     end
 
-    module ClassMethods
-      def attribute(name, type, **options)
-        class_variable_get(:@@config)[name] = { type: type, options: options }
+    private
 
-        define_method(name) do
-          @attributes[name]
-        end
-      end
+    def coerce(attributes, name, config)
+      Coercer.(config[:type], attributes[name])
+    rescue TypeError
+      type_error(name, config[:type], attributes[name].class)
+    end
+
+    def type_error(name, expected, actual)
+      raise(
+        TypeError,
+        "expected :#{name} to be a #{expected} but was a #{actual}"
+      )
     end
 
     class Coercer
@@ -81,7 +84,7 @@ module Reasonable
           end
 
           raise TypeError unless value.is_a?(Hash)
-          raise TypeError unless type.include?(Reasonable::Value)
+          raise TypeError unless type.ancestors.include?(Reasonable::Value)
 
           type.new(value)
         end
@@ -90,5 +93,6 @@ module Reasonable
 
     end
     private_constant :Coercer
+
   end
 end

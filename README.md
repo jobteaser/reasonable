@@ -35,9 +35,7 @@ Or install it yourself as:
 By default attributes are mandatory, but corcible (meaning that passing a Float
 when an Integer is expected will **not** raise an error:
 ``` ruby
-class StandardValue
-
-  include Reasonable::Value
+class StandardValue < Reasonable::Value
 
   attribute :integer, Integer
 
@@ -58,9 +56,7 @@ p StandardValue.new(integer: 1.1)
 
 If you want optional attributes, you can say so like that:
 ``` ruby
-class OptionalValue
-
-  include Reasonable::Value
+class OptionalValue < Reasonable::Value
 
   attribute :string, String, optional: true
 
@@ -81,9 +77,7 @@ p OptionalValue.new(string: 1.1)
 
 You are not limited to Integer or String, you can use any type you want:
 ``` ruby
-class ValueWithCustomType
-
-  include Reasonable::Value
+class ValueWithCustomType < Reasonable::Value
 
   attribute :custom, StandardValue
 

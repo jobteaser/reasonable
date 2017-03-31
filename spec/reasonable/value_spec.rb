@@ -2,26 +2,20 @@
 
 require 'spec_helper'
 
-class StandardValue
-
-  include Reasonable::Value
+class StandardValue < Reasonable::Value
 
   attribute :integer, Integer
 
 end
 
-class OptionalValue
-
-  include Reasonable::Value
+class OptionalValue < Reasonable::Value
 
   attribute :integer, Integer, optional: true
   attribute :string, String, optional: true
 
 end
 
-class ValueWithCustomType
-
-  include Reasonable::Value
+class ValueWithCustomType < Reasonable::Value
 
   attribute :custom, StandardValue
 
