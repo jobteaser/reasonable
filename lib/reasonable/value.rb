@@ -23,6 +23,12 @@ module Reasonable
 
     class << self
 
+      def inherited(subklass)
+        config.each do |name, config|
+          subklass.attribute(name, config[:type], options: config[:options])
+        end
+      end
+
       protected
 
       def attribute(name, type, **options)
@@ -40,7 +46,9 @@ module Reasonable
       end
 
       def config
-        @config ||= {}
+        return @config if defined?(@config)
+
+        @config = {}
       end
 
     end

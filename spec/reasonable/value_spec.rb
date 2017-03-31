@@ -8,6 +8,19 @@ class StandardValue < Reasonable::Value
 
 end
 
+class InheritedStandardValue < StandardValue
+
+  attribute :string, String
+
+end
+
+class DeeplyInheritedStandardValue < InheritedStandardValue
+
+  attribute :integer, Float
+  attribute :string, String, optional: true
+
+end
+
 class OptionalValue < Reasonable::Value
 
   attribute :integer, Integer, optional: true
@@ -108,6 +121,19 @@ RSpec.describe Reasonable::Value do
     it 'handles type casting' do
       expect { ValueWithCustomType.new(custom: CastableType.new) }.
         not_to raise_error
+    end
+
+    it 'supports inheritance' do
+      value = InheritedStandardValue.new(integer: 1, string: 'string')
+
+      expect(value.string).to eq('string')
+      expect(value.integer).to eq(1)
+    end
+
+    it 'supports attribute definition overwrite through inheritance' do
+      value = DeeplyInheritedStandardValue.new(integer: 1.1)
+      expect(value.string).to be_nil
+      expect(value.integer).to eq(1.1)
     end
   end
 end
