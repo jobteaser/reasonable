@@ -72,8 +72,12 @@ module Reasonable
 
       class << self
 
-        def call(type, value)
-          built_in(type, value) || custom(type, value)
+        def call(types, value)
+          coerced = Array(types).reduce(nil) do |memo, type|
+            memo || built_in(type, value) || custom(type, value)
+          end
+
+          coerced.nil? and raise(TypeError) or coerced
         end
 
         private
@@ -82,6 +86,8 @@ module Reasonable
           return unless Kernel.respond_to?(type.to_s)
 
           Kernel.public_send(type.to_s, value)
+        rescue ArgumentError, TypeError
+          nil
         end
 
         def custom(type, value)
@@ -91,8 +97,8 @@ module Reasonable
             return value.public_send("to_#{type.to_s.underscore}")
           end
 
-          raise TypeError unless value.is_a?(Hash)
-          raise TypeError unless type.ancestors.include?(Reasonable::Value)
+          return unless value.is_a?(Hash)
+          return unless type.ancestors.include?(Reasonable::Value)
 
           type.new(value)
         end
