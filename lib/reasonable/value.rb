@@ -21,6 +21,10 @@ module Reasonable
       end
     end
 
+    def to_hash
+      @attributes
+    end
+
     class << self
 
       def inherited(subklass)
