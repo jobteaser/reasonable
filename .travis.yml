@@ -3,9 +3,3 @@ language: ruby
 rvm:
 - 2.4.1
 before_install: gem install bundler -v 1.14.6
-deploy:
-  provider: rubygems
-  on:
-    branch: master
-  api_key:
-    secure: L+1VaI/5sva2RAyP69vkjAK5OkGf0VmhBDp1d4RwTqEahgYjX/1kGWA5Z2PmfJSwOgsMDImzUaD31xBJJ+4qxE+rdHrgWUbvgt2gDYPxs7Iw9cGs+fcaG4DOfXzYuSsil0gO1vVbTAlJxEx9Mj7Z6TyKjH96xFZLqfzDCgmDtBwxV9v7IVshQnxZroqB/ESe8hzl3yywQusJst3QlxGqYsQqU1v5IqDXXq465cu4QWWPOEBD1wtslN2c+qcKdyWgki/JLrApB/aHyjx54D4dssKG5m19h/aDaw4T9Feub11BJcP8UPAzGMFsgwLhAEOBC46bGZwOLHDhVVEmmMSEDRdEFVyEZJu9hjobcPODo364LQlIHZ/a6LuDmgfeqHYQC+uKbE/+iVNzRigCsX9hq8y9hCTFopvnnZcMyRyZdPBEYIGrHwHNX3AKJQa2KZ7jgpf6ufTRxCoTdJrEBbd/gDGdaArQMrjny6A5/V6/6uS0DlAlN2CoP69Ze65f2zobhzWEmqD2d6UHlYNKXs0i8sGJHC23vlbVu4s6GX469MFsEnHwPFMzerjwaQl7r6tFbM9B4Levv7ZKqXZ0xU8q9GWhtM9UqCpMce1DHKKKTyUYeBpZeauCATzqEL40nEfXsE0zXMDiz5yM/v3/m8kzNpQxlJmSEV5me0k/yMmnrsU=
