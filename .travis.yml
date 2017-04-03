@@ -5,7 +5,6 @@ rvm:
 before_install: gem install bundler -v 1.14.6
 deploy:
   provider: rubygems
-  gemspec: reasonable-value.gemspec
   on:
     branch: master
   api_key:
