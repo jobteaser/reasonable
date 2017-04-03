@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email = ['thomas.larrieu@gmail.com']
 
   spec.summary = 'Simple value object gem with straighforward type validation'
-  spec.homepage = 'https://www.github.com/jobteaser/reasonable-value'
+  spec.homepage = 'https://www.github.com/jobteaser/reasonable'
   spec.license = 'MIT'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
