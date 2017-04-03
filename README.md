@@ -107,6 +107,9 @@ class CastableType
   end
 end
 
+p StandardValue.new(CastableType.new)
+# => #<StandardValue:0x005598945ba928 @attributes={:integer=>1}>
+
 p ValueWithCustomType.new(custom: CastableType.new)
 # => #<ValueWithCustomType:0x007f65ec1a6590 @attributes={:custom=>#<StandardValue:0x007f65ec1a5bb8 @attributes={:integer=>1}>}>
 ```

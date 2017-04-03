@@ -11,7 +11,7 @@ module Reasonable
       @attributes <=> other.instance_variable_get(:@attributes)
     end
 
-    def initialize(**attributes)
+    def initialize(attributes = {})
       @attributes = {}
 
       self.class.send(:config).each do |name, config|
@@ -26,6 +26,10 @@ module Reasonable
     end
 
     class << self
+
+      def new(object = {})
+        Try.(MethodName.(self), object) || super(object)
+      end
 
       def inherited(subklass)
         config.each do |name, config|
@@ -97,12 +101,12 @@ module Reasonable
         def custom(type, value)
           return value if value.is_a?(type)
 
-          if value.respond_to?("to_#{type.to_s.underscore}")
-            return value.public_send("to_#{type.to_s.underscore}")
-          end
+          Try.(MethodName.(type), value) || reasonable(type, value)
+        end
 
-          return unless value.is_a?(Hash)
+        def reasonable(type, value)
           return unless type.ancestors.include?(Reasonable::Value)
+          return unless value.is_a?(Hash)
 
           type.new(value)
         end
@@ -111,6 +115,20 @@ module Reasonable
 
     end
     private_constant :Coercer
+
+    module Try
+      def self.call(method_name, object)
+        object.public_send(method_name) if object.respond_to?(method_name)
+      end
+    end
+    private_constant :Try
+
+    module MethodName
+      def self.call(klass)
+        "to_#{klass.to_s.split('::').last.underscore}"
+      end
+    end
+    private_constant :MethodName
 
   end
 end
