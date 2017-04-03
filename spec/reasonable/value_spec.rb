@@ -163,4 +163,21 @@ RSpec.describe Reasonable::Value do
         )
     end
   end
+
+  describe '#to_hash' do
+    it 'returns all the name/values' do
+      expect(OptionalValue.new(integer: 1, string: 'string').to_hash).
+        to eq(integer: 1, string: 'string')
+    end
+
+    it 'returns only declared attributes' do
+      expect(
+        OptionalValue.new(
+          integer: 1,
+          string: 'string',
+          unsupported: Object
+        ).to_hash
+      ).to eq(integer: 1, string: 'string')
+    end
+  end
 end
