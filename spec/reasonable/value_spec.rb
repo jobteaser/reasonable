@@ -8,6 +8,12 @@ class StandardValue < Reasonable::Value
 
 end
 
+class TypeListValue < Reasonable::Value
+
+  attribute :boolean, [TrueClass, FalseClass]
+
+end
+
 class InheritedStandardValue < StandardValue
 
   attribute :string, String
@@ -52,7 +58,10 @@ RSpec.describe Reasonable::Value do
       expect(StandardValue.new(integer: 1).integer).
         to eq(1)
       expect { StandardValue.new(integer: 'test').integer }.
-        to raise_error(ArgumentError)
+        to raise_error(
+          TypeError,
+          'expected :integer to be a Integer but was a String'
+        )
     end
 
     it 'coerces the values' do
@@ -134,6 +143,24 @@ RSpec.describe Reasonable::Value do
       value = DeeplyInheritedStandardValue.new(integer: 1.1)
       expect(value.string).to be_nil
       expect(value.integer).to eq(1.1)
+    end
+
+    it 'handles type list' do
+      expect { TypeListValue.new(boolean: true) }.
+        not_to raise_error
+      expect(TypeListValue.new(boolean: true).boolean).
+        to eq(true)
+
+      expect { TypeListValue.new(boolean: false) }.
+        not_to raise_error
+      expect(TypeListValue.new(boolean: false).boolean).
+        to eq(false)
+
+      expect { TypeListValue.new(boolean: 'error') }.
+        to raise_error(
+          TypeError,
+          'expected :boolean to be a [TrueClass, FalseClass] but was a String'
+        )
     end
   end
 end

@@ -23,6 +23,9 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
+Style/AndOr:
+  Enabled: false
+
 Style/AlignParameters:
   EnforcedStyle: with_first_parameter
 
