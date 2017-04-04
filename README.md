@@ -32,7 +32,7 @@ Or install it yourself as:
 
 ## Usage
 
-By default attributes are mandatory, but corcible (meaning that passing a Float
+By default attributes are mandatory, but coercible (meaning that passing a Float
 when an Integer is expected will **not** raise an error:
 ``` ruby
 class StandardValue < Reasonable::Value
