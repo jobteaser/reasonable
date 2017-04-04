@@ -8,6 +8,14 @@ class StandardValue < Reasonable::Value
 
 end
 
+module Nested
+  class StandardValue < Reasonable::Value
+
+    attribute :integer, Integer
+
+  end
+end
+
 class TypeListValue < Reasonable::Value
 
   attribute :boolean, [TrueClass, FalseClass]
@@ -129,6 +137,11 @@ RSpec.describe Reasonable::Value do
 
     it 'handles type casting' do
       expect { ValueWithCustomType.new(custom: CastableType.new) }.
+        not_to raise_error
+
+      expect { StandardValue.new(CastableType.new) }.
+        not_to raise_error
+      expect { Nested::StandardValue.new(CastableType.new) }.
         not_to raise_error
     end
 
