@@ -152,6 +152,11 @@ RSpec.describe Reasonable::Value do
       expect(value.integer).to eq(1)
     end
 
+    it 'raises with an empty string when not optional' do
+      expect { InheritedStandardValue.new(integer: 1, string: nil) }.
+        to raise_error(TypeError)
+    end
+
     it 'supports attribute definition overwrite through inheritance' do
       value = DeeplyInheritedStandardValue.new(integer: 1.1)
       expect(value.string).to be_nil

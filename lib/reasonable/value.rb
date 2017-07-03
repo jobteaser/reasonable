@@ -17,6 +17,8 @@ module Reasonable
       self.class.send(:config).each do |name, config|
         next if attributes[name].nil? && config[:options][:optional]
 
+        type_error(name, config[:type], NilClass) if attributes[name].nil?
+
         @attributes[name] = coerce(attributes, name, config)
       end
     end
