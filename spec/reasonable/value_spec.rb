@@ -42,6 +42,13 @@ class OptionalValue < Reasonable::Value
 
 end
 
+class OptionalValueWithDefault < Reasonable::Value
+
+  attribute :integer, Integer, optional: true, default: 1
+  attribute :string, String, optional: true, default: 'foo'
+
+end
+
 class ValueWithCustomType < Reasonable::Value
 
   attribute :custom, StandardValue
@@ -103,6 +110,17 @@ RSpec.describe Reasonable::Value do
         to eq(nil)
       expect(OptionalValue.new(integer: nil).integer).
         to eq(nil)
+    end
+
+    it 'supports a "default" parameter' do
+      expect(OptionalValueWithDefault.new.integer).
+        to eq(1)
+      expect(OptionalValueWithDefault.new(integer: nil).integer).
+        to eq(1)
+      expect(OptionalValueWithDefault.new.string).
+        to eq('foo')
+      expect(OptionalValueWithDefault.new(string: nil).string).
+        to eq('foo')
     end
 
     it 'ignores undefined attributes' do
