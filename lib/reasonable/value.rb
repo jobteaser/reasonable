@@ -15,7 +15,11 @@ module Reasonable
       @attributes = {}
 
       self.class.send(:config).each do |name, config|
-        next if attributes[name].nil? && config[:options][:optional]
+        options = config[:options]
+        if options[:optional]
+          attributes[name] ||= options[:default]
+          next if attributes[name].nil?
+        end
 
         type_error(name, config[:type], NilClass) if attributes[name].nil?
 

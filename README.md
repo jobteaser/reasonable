@@ -71,6 +71,25 @@ p OptionalValue.new(string: 1.1)
 # => #<OptionalValue:0x007f65ec1792e8 @attributes={:string=>"1.1"}>
 ```
 
+Additionally, you can specify a default value for optional attributes:
+``` ruby
+class OptionalValueWithDefault < Reasonable::Value
+  attribute :string, String, optional: true, default: 'foo'
+end
+
+p OptionalValueWithDefault.new
+# => #<OptionalValueWithDefault:0x0055ecec2ae2c8 @attributes={:string=>"foo"}>
+
+p OptionalValueWithDefault.new(string: nil)
+# => #<OptionalValueWithDefault:0x007f65ec16c430 @attributes={:string=>"foo"}>
+
+p OptionalValueWithDefault.new(string: 'string')
+# => #<OptionalValueWithDefault:0x007f65ec174f18 @attributes={:string=>"string"}>
+
+p OptionalValueWithDefault.new(string: 1.1)
+# => #<OptionalValueWithDefault:0x007f65ec1792e8 @attributes={:string=>"1.1"}>
+```
+
 You are not limited to Integer or String, you can use any type you want:
 ``` ruby
 class ValueWithCustomType < Reasonable::Value
