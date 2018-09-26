@@ -17,7 +17,7 @@ module Reasonable
       self.class.send(:config).each do |name, config|
         options = config[:options]
         if options[:optional]
-          attributes[name] ||= options[:default]
+          attributes[name] = options[:default] if attributes[name].nil?
           next if attributes[name].nil?
         end
 
