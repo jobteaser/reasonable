@@ -1,12 +1,51 @@
 AllCops:
-  # Use Ruby 2.3 parser
-  TargetRubyVersion: 2.3
-
-Style/DotPosition:
-  EnforcedStyle: trailing
+  TargetRubyVersion: 2.4
 
 ClassLength:
   Max: 150
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/AlignParameters:
+  EnforcedStyle: with_first_parameter
+
+Layout/EmptyLines:
+  Description: "Don't use several empty lines in a row."
+  Enabled: true
+
+Layout/EmptyLinesAroundBlockBody:
+  Description: "Keeps track of empty lines around block bodies."
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines
+  SupportedStyles:
+    - empty_lines
+    - no_empty_lines
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: no_empty_lines
+  SupportedStyles:
+    - empty_lines
+    - no_empty_lines
+
+Layout/EndOfLine:
+  Description: 'Use Unix-style line endings.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#crlf'
+  Enabled: true
+
+Layout/ExtraSpacing:
+  # When true, allows most uses of extra spacing if the intent is to align
+  # things with the previous or next line, not counting empty lines or comment
+  # lines.
+  AllowForAlignment: true
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
 
 Metrics/LineLength:
   Max: 100
@@ -26,17 +65,8 @@ Metrics/BlockLength:
 Style/AndOr:
   Enabled: false
 
-Style/AlignParameters:
-  EnforcedStyle: with_first_parameter
-
 Style/Documentation:
   Enabled: false
-
-Style/ExtraSpacing:
-  # When true, allows most uses of extra spacing if the intent is to align
-  # things with the previous or next line, not counting empty lines or comment
-  # lines.
-  AllowForAlignment: true
 
 Style/LambdaCall:
   Enabled: true
@@ -45,39 +75,8 @@ Style/LambdaCall:
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
-Style/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines
-  SupportedStyles:
-    - empty_lines
-    - no_empty_lines
-
-Style/EmptyLinesAroundModuleBody:
-  EnforcedStyle: no_empty_lines
-  SupportedStyles:
-    - empty_lines
-    - no_empty_lines
-
-Style/EmptyLinesAroundBlockBody:
-  Description: "Keeps track of empty lines around block bodies."
-  Enabled: false
-
-Style/EmptyLines:
-  Description: "Don't use several empty lines in a row."
-  Enabled: true
-
 Style/EmptyCaseCondition:
   Enabled: false
-
-Style/EndOfLine:
-  Description: 'Use Unix-style line endings.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#crlf'
-  Enabled: true
-
-Style/MultilineOperationIndentation:
-  EnforcedStyle: indented
-
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
 
 Style/WordArray:
   Description: 'Use %w or %W for arrays of words.'
